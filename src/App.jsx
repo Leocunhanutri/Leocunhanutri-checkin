@@ -110,7 +110,7 @@ const BLOCK_CONFIG = {
   treino: { label: "Atividade Física",  weight: 15, color: "#fbbf24" }
 };
 
-export default function App() {
+export default function CheckinSemanal() {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(null);
@@ -231,10 +231,10 @@ export default function App() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        .pill { background: #111; border: 1px solid #2a2a2a; color: #888; font-size: 0.8rem; padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s; user-select: none; display: inline-block; }
+        .pill { background: #111; touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; border: 1px solid #2a2a2a; color: #888; font-size: 0.8rem; padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s; user-select: none; display: inline-block; }
         .pill:hover { border-color: #c9a84c; color: #e8e6e0; }
         .pill.sel { background: rgba(201,168,76,0.15); border-color: #c9a84c; color: #c9a84c; font-weight: 600; }
-        .scale-pip { flex: 1; height: 36px; border: 1px solid #2a2a2a; border-radius: 6px; background: #0a0a0a; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: #555; transition: all 0.15s; }
+        .scale-pip { flex: 1; touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; height: 36px; border: 1px solid #2a2a2a; border-radius: 6px; background: #0a0a0a; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: #555; transition: all 0.15s; }
         .scale-pip:hover { border-color: #c9a84c; color: #c9a84c; }
         .scale-pip.sel { background: #c9a84c; border-color: #c9a84c; color: #0a0a0a; }
       `}</style>
@@ -311,7 +311,8 @@ export default function App() {
                         <div style={{ display: "flex", gap: 4 }}>
                           {Array.from({ length: 11 }, (_, i) => (
                             <div key={i} className={`scale-pip${answers[q.id] === i ? " sel" : ""}`}
-                              onClick={() => setAnswer(q.id, i)}>{i}</div>
+                            onClick={(e) => { e.preventDefault(); setAnswer(q.id, i); }}
+                            onTouchEnd={(e) => { e.preventDefault(); setAnswer(q.id, i); }}>{i}</div>
                           ))}
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5, fontSize: "0.65rem", color: "#555" }}>
@@ -324,7 +325,8 @@ export default function App() {
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
                         {q.options.map(opt => (
                           <div key={opt.label} className={`pill${answers[q.id] === opt.val && answers[q.id] !== undefined ? " sel" : ""}`}
-                            onClick={() => setAnswer(q.id, opt.val)}>{opt.label}</div>
+                            onClick={(e) => { e.preventDefault(); setAnswer(q.id, opt.val); }}
+                            onTouchEnd={(e) => { e.preventDefault(); setAnswer(q.id, opt.val); }}>{opt.label}</div>
                         ))}
                       </div>
                     )}
@@ -335,7 +337,8 @@ export default function App() {
                           const sel = (answers[q.id] || []).includes(opt.label);
                           return (
                             <div key={opt.label} className={`pill${sel ? " sel" : ""}`}
-                              onClick={() => toggleMulti(q.id, opt.label)}>
+                            onClick={(e) => { e.preventDefault(); toggleMulti(q.id, opt.label); }}
+                            onTouchEnd={(e) => { e.preventDefault(); toggleMulti(q.id, opt.label); }}>
                               <span style={{ marginRight: 5, fontSize: "0.7rem", border: `1.5px solid ${sel ? "#c9a84c" : "#555"}`, borderRadius: 3, width: 13, height: 13, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{sel ? "✓" : ""}</span>
                               {opt.label}
                             </div>
